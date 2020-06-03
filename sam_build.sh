@@ -26,6 +26,9 @@ done
 # clean up lambda.zip
 rm -vf ${OUT_FILE}
 
+# opt out of amazon data collection
+export SAM_CLI_TELEMETRY=0
+
 # build it
 sam build \
     --use-container \
