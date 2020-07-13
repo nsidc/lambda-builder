@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-USAGE="usage: host_script.sh PROJECT_DIR"
+USAGE="usage: build.sh PROJECT_DIR [LAMBDA_NAME]"
 
 # ensure right number of args
-if [ "$#" -ne 1 ]; then
+if [ "$#" -eq 0 ] || [ "$#" -gt 2 ]; then
     echo $USAGE
     exit 1
 fi
@@ -15,6 +15,11 @@ if [[ "${PROJECT_DIR}" != /* ]] || [[ ! -d "${PROJECT_DIR}" ]]; then
     echo $USAGE
     echo -e "\nERROR: PROJECT_DIR must be an absolute path to an existing directory."
     exit 1
+fi
+
+LAMBDA_NAME=$2
+if [ -z "${LAMBDA_NAME}" ]; then
+    LAMBDA_NAME='lambda'
 fi
 
 # make this script work no matter where it was called from
@@ -32,6 +37,6 @@ docker run \
        ${DOCKER_IMAGE_TAG}
 
 # move the build artifact to current directory
-mv ${PROJECT_DIR}/lambda.zip lambda.zip
+mv lambda.zip ${LAMBDA_NAME}.zip
 
-echo "Created lambda.zip"
+echo "Created ${LAMBDA_NAME}.zip"
