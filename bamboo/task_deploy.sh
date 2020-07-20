@@ -13,22 +13,24 @@ set -e
 # 	${bamboo.AWS_SECRET_ACCESS_KEY_ID} \
 # 	${bamboo.BRANCH_TO_DEPLOY} \
 # 	${bamboo.GITHUB_TOKEN_SECRET} \
+# 	${bamboo.PREFIX} \
 # 	${bamboo.resultsUrl}
 
 echo ${BASH_SOURCE[0]}
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # args from bamboo
-export ORG=$1
-export REPO=$2
-export LAMBDA_FUNCTION_NAME=$3
-export AWS_DEFAULT_REGION=$4
-export AWS_PROFILE=$5
-export AWS_SECRET_ACCESS_KEY=$6
-export AWS_SECRET_ACCESS_KEY_ID=$7
-export BRANCH_TO_DEPLOY=$8
-export GITHUB_TOKEN_SECRET=$9
-export RESULTS_URL=$10
+export ORG=${1}
+export REPO=${2}
+export LAMBDA_FUNCTION_NAME=${3}
+export AWS_DEFAULT_REGION=${4}
+export AWS_PROFILE=${5}
+export AWS_SECRET_ACCESS_KEY=${6}
+export AWS_SECRET_ACCESS_KEY_ID=${7}
+export BRANCH_TO_DEPLOY=${8}
+export GITHUB_TOKEN_SECRET=${9}
+export PREFIX=${10}
+export RESULTS_URL=${11}
 
 export STATUS=pending
 
@@ -76,23 +78,24 @@ fi
 ${SCRIPT_DIR}/write-aws-credentials.sh
 
 # deploy
-echo docker run \
-    -v $(pwd):$(pwd) \
-    -v $(pwd)/aws:/home/linuxbrew/.aws \
-    -e AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
-    -e AWS_PROFILE=${AWS_PROFILE} \
-    lambda-builder aws lambda update-function-code \
-    --function-name ${LAMBDA_FUNCTION_NAME} \
-    --zip-file fileb://$(pwd)/lambda.zip
+echo "docker run"
+echo "    -v $(pwd):$(pwd)"
+echo "    -v $(pwd)/aws:/home/linuxbrew/.aws"
+echo "    -e AWS_SHARED_CREDENTIALS_FILE=$(pwd)/aws/credentials"
+echo "    -e AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}"
+echo "    -e AWS_PROFILE=${AWS_PROFILE}"
+echo "    -w $(pwd)"
+echo "    lambda-builder"
+echo "        bash -c \"source .bamboo_env_vars && ${SCRIPT_DIR}/../publish.sh $(pwd)/lambda.zip ${PREFIX} ${LAMBDA_FUNCTION_NAME}\""
 docker run \
     -v $(pwd):$(pwd) \
     -v $(pwd)/aws:/home/linuxbrew/.aws \
-    -e AWS_SHARED_CREDENTIALS_FILE=/home/linuxbrew/.aws/credentials \
+    -e AWS_SHARED_CREDENTIALS_FILE=$(pwd)/aws/credentials \
     -e AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
     -e AWS_PROFILE=${AWS_PROFILE} \
-    lambda-builder aws lambda update-function-code \
-    --function-name ${LAMBDA_FUNCTION_NAME} \
-    --zip-file fileb://$(pwd)/lambda.zip
+    -w $(pwd) \
+    lambda-builder \
+        bash -c "source .bamboo_env_vars && ${SCRIPT_DIR}/../publish.sh $(pwd)/lambda.zip ${PREFIX} ${LAMBDA_FUNCTION_NAME}"
 
 # update env vars for successful deploy (github API will be reached in the
 # "final" task)

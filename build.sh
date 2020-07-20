@@ -37,6 +37,6 @@ docker run \
        ${DOCKER_IMAGE_TAG}
 
 # move the build artifact to current directory
-mv lambda.zip ${LAMBDA_NAME}.zip
+mv ${PROJECT_DIR}/lambda.zip ${LAMBDA_NAME}.zip
 
 echo "Created ${LAMBDA_NAME}.zip"
