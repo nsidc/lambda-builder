@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-# Called in Bamboo "DeployToSandbox" job, "Final task" like this:
-#
-# ./lambda-builder/bamboo/task_final_deploy.sh
-
 echo ${BASH_SOURCE[0]}
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 

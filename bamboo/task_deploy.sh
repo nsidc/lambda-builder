@@ -1,36 +1,22 @@
 #!/bin/bash
 set -e
 
-# Called in Bamboo "DeployToSandbox" job like this:
+# Required environment variables in bamboo:
 #
-# ./lambda-builder/bamboo/task_deploy.sh \
-#	${bamboo.GITHUB_ORG} \
-#	${bamboo.REPO} \
-#	${bamboo.LAMBDA_FUNCTION_NAME} \
-# 	${bamboo.AWS_DEFAULT_REGION} \
-# 	${bamboo.AWS_PROFILE} \
-# 	${bamboo.AWS_SECRET_ACCESS_KEY} \
-# 	${bamboo.AWS_SECRET_ACCESS_KEY_ID} \
-# 	${bamboo.BRANCH_TO_DEPLOY} \
-# 	${bamboo.GITHUB_TOKEN_SECRET} \
-# 	${bamboo.PREFIX} \
-# 	${bamboo.resultsUrl}
+# ORG=${bamboo.GITHUB_ORG}
+# REPO=${bamboo.REPO}
+# LAMBDA_FUNCTION_NAME=${bamboo.LAMBDA_FUNCTION_NAME}
+# AWS_DEFAULT_REGION=${bamboo.AWS_DEFAULT_REGION}
+# AWS_PROFILE=${bamboo.AWS_PROFILE}
+# AWS_SECRET_ACCESS_KEY=${bamboo.AWS_SECRET_ACCESS_KEY}
+# AWS_SECRET_ACCESS_KEY_ID=${bamboo.AWS_SECRET_ACCESS_KEY_ID}
+# BRANCH_TO_DEPLOY=${bamboo.BRANCH_TO_DEPLOY}
+# GITHUB_TOKEN_SECRET=${bamboo.GITHUB_TOKEN_SECRET}
+# PREFIX=${bamboo.CUMULUS_PREFIX}
+# RESULTS_URL=${bamboo.resultsUrl}
 
 echo ${BASH_SOURCE[0]}
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
-# args from bamboo
-export ORG=${1}
-export REPO=${2}
-export LAMBDA_FUNCTION_NAME=${3}
-export AWS_DEFAULT_REGION=${4}
-export AWS_PROFILE=${5}
-export AWS_SECRET_ACCESS_KEY=${6}
-export AWS_SECRET_ACCESS_KEY_ID=${7}
-export BRANCH_TO_DEPLOY=${8}
-export GITHUB_TOKEN_SECRET=${9}
-export PREFIX=${10}
-export RESULTS_URL=${11}
 
 export STATUS=pending
 
