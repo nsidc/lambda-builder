@@ -48,9 +48,4 @@ function_name="${CUMULUS_PREFIX}-${LAMBDA_NAME}"
          --function-name "${function_name}" \
          --s3-bucket "${BUCKET}" \
          --s3-key "${KEY}") ||
-    aws lambda create-function \
-        --function-name "${function_name}" \
-        --code "S3Bucket=${BUCKET},S3Key=${KEY}" \
-        --runtime "python3.8" \
-        --role "arn:aws:iam::${AWS_ACCOUNT_ID}:role/${CUMULUS_PREFIX}-lambda-processing" \
-        --handler "${LAMBDA_NAME}.lambda_handler"
+    echo "lambda function '${function_name}' not found; lambda function must be created via terraform deployment"
