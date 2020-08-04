@@ -39,6 +39,8 @@ echo "Publishing ${LAMBDA_ZIP} to s3://${BUCKET}/${KEY} and lambda ${CUMULUS_PRE
 # upload to S3
 aws s3 cp ${LAMBDA_ZIP} s3://${BUCKET}/${KEY}
 
+AWS_ACCOUNT_ID=$(aws sts get-caller-identity| grep 'Account' | cut -d '"' -f 4)
+
 # create or update lambda
 function_name="${CUMULUS_PREFIX}-${LAMBDA_NAME}"
 (aws lambda get-function --function-name "${function_name}" &&
