@@ -48,5 +48,6 @@ function_name="${CUMULUS_PREFIX}-${LAMBDA_NAME}"
          --s3-key "${KEY}") ||
     aws lambda create-function \
         --function-name "${function_name}" \
-        --code="S3Bucket=${BUCKET},S3Key=${KEY}"
+        --code "S3Bucket=${BUCKET},S3Key=${KEY}" \
+        --runtime "python3.8" \
         --handler "${LAMBDA_NAME}.lambda_handler"
