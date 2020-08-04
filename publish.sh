@@ -39,8 +39,14 @@ echo "Publishing ${LAMBDA_ZIP} to s3://${BUCKET}/${KEY} and lambda ${CUMULUS_PRE
 # upload to S3
 aws s3 cp ${LAMBDA_ZIP} s3://${BUCKET}/${KEY}
 
-# update lambda
-aws lambda update-function-code \
-    --function-name "${CUMULUS_PREFIX}-${LAMBDA_NAME}" \
-    --s3-bucket "${BUCKET}" \
-    --s3-key "${KEY}"
+# create or update lambda
+function_name="${CUMULUS_PREFIX}-${LAMBDA_NAME}"
+(aws lambda get-function --function-name "${function_name}" &&
+     aws lambda update-function-code \
+         --function-name "${function_name}" \
+         --s3-bucket "${BUCKET}" \
+         --s3-key "${KEY}") ||
+    aws lambda create-function \
+        --function-name "${function_name}" \
+        --zip-file "fileb://${LAMBDA_ZIP}" \
+        --handler "${LAMBDA_NAME}.lambda_handler"
