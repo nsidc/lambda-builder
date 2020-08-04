@@ -50,4 +50,5 @@ function_name="${CUMULUS_PREFIX}-${LAMBDA_NAME}"
         --function-name "${function_name}" \
         --code "S3Bucket=${BUCKET},S3Key=${KEY}" \
         --runtime "python3.8" \
+        --role "arn:aws:iam::${AWS_ACCOUNT_ID}:role/${CUMULUS_PREFIX}-lambda-processing" \
         --handler "${LAMBDA_NAME}.lambda_handler"
