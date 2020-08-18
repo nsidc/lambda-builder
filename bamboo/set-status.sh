@@ -1,18 +1,22 @@
 #!/bin/bash
 set -e
 
-echo ${BASH_SOURCE[0]}
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+# Required environment variables in bamboo:
+#
+# GITHUB_TOKEN_SECRET=${bamboo.GITHUB_TOKEN_SECRET}
+# ORG=${bamboo.GITHUB_ORG}
+# REPO=${bamboo.REPO}
+# TARGET_URL=${bamboo.resultsUrl}
 
-# if status was never updated to success, it failed
-if [ "${STATUS}" = "pending" ]; then
-    cat << EOF >> .bamboo_env_vars
-export STATUS=failure
-export DESCRIPTION="job failed"
-EOF
+STATUS=${1}
+DESCRIPTION=${2}
+
+
+if [ -z ${STATUS} ] || [ -z ${DESCRIPTION} ]; then
+    source ${PWD}/build-status || exit 1
 fi
 
-source .bamboo_env_vars || true
+GIT_SHA=$(cd ${REPO} && git rev-parse HEAD)
 
 URL="https://api.github.com/repos/${ORG}/${REPO}/statuses/${GIT_SHA}"
 echo "POSTing status to ${URL}"
@@ -23,6 +27,3 @@ curl \
     -d "{\"state\":\"${STATUS}\", \"target_url\": \"${TARGET_URL}\", \"description\": \"${DESCRIPTION}\", \"context\": \"${CONTEXT}\"}"\
     -X POST\
     ${URL}
-
-# clean up env vars file
-rm -v .bamboo_env_vars
