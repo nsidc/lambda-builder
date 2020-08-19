@@ -31,11 +31,11 @@ ${SCRIPT_DIR}/../set-status.sh
 URL="https://api.github.com/repos/${ORG}/${REPO}/releases"
 
 # check if release already exists
-UPLOAD_URL=$(curl --silent \
-                  --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
-                  --header "Content-Type: application/json" \
-                  --request GET\
-                  ${URL}/tags/${RELEASE_VERSION_NAME} | jq -r '.upload_url')
+UPLOAD_URL=$((curl --silent \
+                   --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
+                   --header "Content-Type: application/json" \
+                   --request GET\
+                   ${URL}/tags/${RELEASE_VERSION_NAME} | jq -r '.upload_url') || true)
 
 
 # create release if it doesn't exist
