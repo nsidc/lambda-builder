@@ -34,7 +34,7 @@ EOF
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 DOCKER_IMAGE_TAG=lambda-builder
-docker build -t ${DOCKER_IMAGE_TAG} ../../${SCRIPT_DIR}
+docker build -t ${DOCKER_IMAGE_TAG} ${SCRIPT_DIR}/../..
 
 # deploy
 docker run \
