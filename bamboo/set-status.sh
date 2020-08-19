@@ -21,7 +21,7 @@ GIT_SHA=$(cd ${REPO} && git rev-parse HEAD)
 URL="https://api.github.com/repos/${ORG}/${REPO}/statuses/${GIT_SHA}"
 echo "POSTing status to ${URL}"
 
-curl --silent \
+curl --silent --show-error \
     --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
     --header "Content-Type: application/json" \
     --data "{\"state\":\"${STATUS}\", \"target_url\": \"${TARGET_URL}\", \"description\": \"${DESCRIPTION}\", \"context\": \"${CONTEXT}\"}"\

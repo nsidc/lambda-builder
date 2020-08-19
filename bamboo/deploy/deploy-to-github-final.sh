@@ -3,6 +3,7 @@ set -e
 
 # Required environment variables in bamboo:
 #
+# BUILD_NUMBER=${bamboo.buildResultKey}
 # GITHUB_TOKEN_SECRET=${bamboo.GITHUB_TOKEN_SECRET}
 # ORG=${bamboo.GITHUB_ORG}
 # REPO=${bamboo.REPO}

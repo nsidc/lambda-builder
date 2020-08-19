@@ -3,6 +3,7 @@ set -e
 
 # Required environment variables in bamboo:
 #
+# BUILD_NUMBER=${bamboo.buildResultKey}
 # GITHUB_TOKEN_SECRET=${bamboo.GITHUB_TOKEN_SECRET}
 # LAMBDA_FUNCTION_NAME=${bamboo.LAMBDA_FUNCTION_NAME}
 # ORG=${bamboo.GITHUB_ORG}
@@ -32,18 +33,19 @@ URL="https://api.github.com/repos/${ORG}/${REPO}/releases"
 
 # check if release already exists
 echo "Checking for existing release..."
-UPLOAD_URL=$((curl --silent \
+UPLOAD_URL=$((curl --silent --show-error \
                    --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
                    --header "Content-Type: application/json" \
                    --request GET\
                    ${URL}/tags/${RELEASE_VERSION_NAME} | jq -r '.upload_url') || true)
 
+echo "UPLOAD_URL=${UPLOAD_URL}"
 
 # create release if it doesn't exist
-if [ -z ${UPLOAD_URL} ]; then
+if [ -z "${UPLOAD_URL}" ]; then
     echo "Creating new release..."
     BODY="See [CHANGELOG.md](https://github.com/nsidc/XMLTransformISO2CMRLambda/blob/main/CHANGELOG.md#${RELEASE_VERSION_NAME//./})"
-    UPLOAD_URL=$(curl --silent \
+    UPLOAD_URL=$(curl --silent --show-error \
                       --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
                       --header "Content-Type: application/json" \
                       --data "{\"tag_name\": \"${RELEASE_VERSION_NAME}\", \"name\": \"${RELEASE_VERSION_NAME}\", \"body\": \"${BODY}\"}"\
@@ -57,13 +59,15 @@ if [ -z ${UPLOAD_URL} ]; then
     exit 1
 fi
 
+echo "UPLOAD_URL=${UPLOAD_URL}"
+
 # substitute the correct file name
 UPLOAD_URL=${UPLOAD_URL/\{?name,label\}/?name=${LAMBDA_FUNCTION_NAME}.zip}
 
 echo "Uploading to ${UPLOAD_URL}..."
 
 # upload lambda.zip
-curl --silent \
+curl --silent --show-error \
      --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
      --header "Content-Type: application/zip" \
      --data-binary @lambda.zip \
