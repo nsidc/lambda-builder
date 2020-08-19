@@ -33,25 +33,30 @@ URL="https://api.github.com/repos/${ORG}/${REPO}/releases"
 
 # check if release already exists
 echo "Checking for existing release..."
-UPLOAD_URL=$((curl --silent --show-error \
-                   --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
-                   --header "Content-Type: application/json" \
-                   --request GET\
-                   ${URL}/tags/${RELEASE_VERSION_NAME} | jq -r '.upload_url') || true)
+RESPONSE=$(curl --silent --show-error \
+                --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
+                --header "Content-Type: application/json" \
+                --request GET\
+                ${URL}/tags/${RELEASE_VERSION_NAME})
+UPLOAD_URL=$((echo ${RESPONSE} | jq -r '.upload_url') || true)
+
+echo "RESPONSE: ${RESPONSE}"
 
 echo "UPLOAD_URL=${UPLOAD_URL}"
 
 # create release if it doesn't exist
-if [ -z "${UPLOAD_URL}" ]; then
+if [ -z "${UPLOAD_URL}" ] || [ "${UPLOAD_URL}" = "null" ]; then
     echo "Creating new release..."
     BODY="See [CHANGELOG.md](https://github.com/nsidc/XMLTransformISO2CMRLambda/blob/main/CHANGELOG.md#${RELEASE_VERSION_NAME//./})"
-    UPLOAD_URL=$(curl --silent --show-error \
-                      --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
-                      --header "Content-Type: application/json" \
-                      --data "{\"tag_name\": \"${RELEASE_VERSION_NAME}\", \"name\": \"${RELEASE_VERSION_NAME}\", \"body\": \"${BODY}\"}"\
-                      --request POST\
-                      ${URL} | jq -r '.upload_url')
-
+    RESPONSE=$(curl --silent --show-error \
+                    --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
+                    --header "Content-Type: application/json" \
+                    --data "{\"tag_name\": \"${RELEASE_VERSION_NAME}\", \"name\": \"${RELEASE_VERSION_NAME}\", \"body\": \"${BODY}\"}"\
+                    --request POST\
+                    ${URL})
+    echo "RESPONSE: ${RESPONSE}"
+    UPLOAD_URL=$(echo ${RESPONSE} | jq -r '.upload_url')
+    echo "UPLOAD_URL=${UPLOAD_URL}"
 fi
 
 if [ -z ${UPLOAD_URL} ]; then
@@ -59,7 +64,6 @@ if [ -z ${UPLOAD_URL} ]; then
     exit 1
 fi
 
-echo "UPLOAD_URL=${UPLOAD_URL}"
 
 # substitute the correct file name
 UPLOAD_URL=${UPLOAD_URL/\{?name,label\}/?name=${LAMBDA_FUNCTION_NAME}.zip}
