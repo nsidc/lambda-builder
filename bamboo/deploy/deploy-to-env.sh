@@ -32,6 +32,10 @@ aws_access_key_id = ${AWS_SECRET_ACCESS_KEY_ID}
 aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}
 EOF
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DOCKER_IMAGE_TAG=lambda-builder
+docker build -t ${DOCKER_IMAGE_TAG} ${SCRIPT_DIR}
+
 # deploy
 docker run \
     --volume $(pwd):$(pwd) \
@@ -40,7 +44,7 @@ docker run \
     --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
     --env AWS_PROFILE=${AWS_PROFILE} \
     --workdir $(pwd) \
-    lambda-builder \
+    ${DOCKER_IMAGE_TAG} \
         bash -c "${SCRIPT_DIR}/../../publish.sh $(pwd)/lambda.zip ${DEPLOY_NAME}-cumulus-${MATURITY} ${LAMBDA_FUNCTION_NAME}"
 
 # update env vars for successful deploy (github API will be reached in the
