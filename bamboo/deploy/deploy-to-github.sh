@@ -48,6 +48,8 @@ echo "UPLOAD_URL=${UPLOAD_URL}"
 if [ -z "${UPLOAD_URL}" ] || [ "${UPLOAD_URL}" = "null" ]; then
     echo "Creating new release..."
     BODY="See [CHANGELOG.md](https://github.com/nsidc/XMLTransformISO2CMRLambda/blob/main/CHANGELOG.md#${RELEASE_VERSION_NAME//./})"
+    echo "posting to URL: ${URL}"
+    echo posting data: "{\"tag_name\": \"${RELEASE_VERSION_NAME}\", \"name\": \"${RELEASE_VERSION_NAME}\", \"body\": \"${BODY}\"}"
     RESPONSE=$(curl --silent --show-error \
                     --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
                     --header "Content-Type: application/json" \
