@@ -50,14 +50,14 @@ if [ -z "${UPLOAD_URL}" ] || [ "${UPLOAD_URL}" = "null" ]; then
     BODY="See [CHANGELOG.md](https://github.com/nsidc/XMLTransformISO2CMRLambda/blob/main/CHANGELOG.md#${RELEASE_VERSION_NAME//./})"
     echo "posting to URL: ${URL}"
     echo posting data: "{\"tag_name\": \"${RELEASE_VERSION_NAME}\", \"name\": \"${RELEASE_VERSION_NAME}\", \"body\": \"${BODY}\"}"
-    RESPONSE=$(curl --silent --show-error \
+    POST_RESPONSE=$(curl --silent --show-error \
                     --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
                     --header "Accept: application/vnd.github.v3+json" \
                     --data "{\"tag_name\": \"${RELEASE_VERSION_NAME}\", \"name\": \"${RELEASE_VERSION_NAME}\", \"body\": \"${BODY}\"}"\
                     --request POST\
                     ${URL})
-    echo "RESPONSE: ${RESPONSE}"
-    UPLOAD_URL=$(echo ${RESPONSE} | jq -r '.upload_url')
+    echo "RESPONSE: ${POST_RESPONSE}"
+    UPLOAD_URL=$(echo ${POST_RESPONSE} | jq -r '.upload_url')
     echo "UPLOAD_URL=${UPLOAD_URL}"
 fi
 
