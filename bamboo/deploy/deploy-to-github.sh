@@ -31,6 +31,7 @@ ${SCRIPT_DIR}/../set-status.sh
 URL="https://api.github.com/repos/${ORG}/${REPO}/releases"
 
 # check if release already exists
+echo "Checking for existing release..."
 UPLOAD_URL=$((curl --silent \
                    --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
                    --header "Content-Type: application/json" \
@@ -40,6 +41,7 @@ UPLOAD_URL=$((curl --silent \
 
 # create release if it doesn't exist
 if [ -z ${UPLOAD_URL} ]; then
+    echo "Creating new release..."
     BODY="See [CHANGELOG.md](https://github.com/nsidc/XMLTransformISO2CMRLambda/blob/main/CHANGELOG.md#${RELEASE_VERSION_NAME//./})"
     UPLOAD_URL=$(curl --silent \
                       --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
@@ -57,6 +59,8 @@ fi
 
 # substitute the correct file name
 UPLOAD_URL=${UPLOAD_URL/\{?name,label\}/?name=${LAMBDA_FUNCTION_NAME}.zip}
+
+echo "Uploading to ${UPLOAD_URL}..."
 
 # upload lambda.zip
 curl --silent \
