@@ -31,8 +31,8 @@ if [ -z ${LAMBDA_NAME} ]; then
     LAMBDA_NAME=${LAMBDA_NAME%.zip}
 fi
 
-BUCKET="${CUMULUS_PREFIX}-internal"
-KEY="${CUMULUS_PREFIX}/lambdas/${LAMBDA_NAME}.zip"
+BUCKET="${CUMULUS_PREFIX}-artifacts"
+KEY="lambdas/${LAMBDA_NAME}.zip"
 
 echo "Publishing ${LAMBDA_ZIP} to s3://${BUCKET}/${KEY} and lambda ${CUMULUS_PREFIX}-${LAMBDA_NAME}"
 
