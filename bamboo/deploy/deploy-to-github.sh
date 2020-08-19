@@ -52,7 +52,7 @@ if [ -z "${UPLOAD_URL}" ] || [ "${UPLOAD_URL}" = "null" ]; then
     echo posting data: "{\"tag_name\": \"${RELEASE_VERSION_NAME}\", \"name\": \"${RELEASE_VERSION_NAME}\", \"body\": \"${BODY}\"}"
     RESPONSE=$(curl --silent --show-error \
                     --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
-                    --header "Content-Type: application/json" \
+                    --header "Accept: application/vnd.github.v3+json" \
                     --data "{\"tag_name\": \"${RELEASE_VERSION_NAME}\", \"name\": \"${RELEASE_VERSION_NAME}\", \"body\": \"${BODY}\"}"\
                     --request POST\
                     ${URL})
