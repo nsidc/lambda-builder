@@ -26,4 +26,7 @@ curl --silent --show-error \
     --header "Content-Type: application/json" \
     --data "{\"state\":\"${STATUS}\", \"target_url\": \"${TARGET_URL}\", \"description\": \"${DESCRIPTION}\", \"context\": \"${CONTEXT}\"}"\
     --request POST\
+    --write-out 'HTTP status: %{http_code}'\
+    --out response.json \
     ${URL}
+cat response.json
