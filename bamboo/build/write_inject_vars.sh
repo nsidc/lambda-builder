@@ -9,15 +9,25 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 VAR_FILE=inject_vars.txt
 
-
 cd ${REPO}
-VERSION=$(git tag --points-at HEAD | grep -E '^v[0-9]' || git rev-parse  --short HEAD)
-if [ $(echo "${VERSION}" | wc -l) -gt 1 ]; then
-    >&2 echo "Found multiple version tags: ${VERSION}"
-    exit 1
+branch=$(git rev-parse --abbrev-ref HEAD)
+commit=$(git rev-parse --short HEAD)
+version_tag=$((git tag --points-at HEAD | grep -E '^v[0-9]') || echo '')
+
+if [ "${branch}" = "release" ]; then
+    if [ -z "${version_tag}" ]; then
+        >&2 echo "Found no version tag."
+        exit 1
+    elif [ $(echo "${version_tag}" | wc -l) -gt 1 ]; then
+        >&2 echo "Found multiple version tags: ${version_tag}"
+        exit 1
+    else
+        VERSION=${version_tag}
+    fi
+else
+    VERSION="${branch}-${commit}"
 fi
 cd -
-
 
 echo '' > ${VAR_FILE}
 echo RELEASE_VERSION_NAME=${VERSION} >> ${VAR_FILE}
