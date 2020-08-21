@@ -45,7 +45,7 @@ UPLOAD_URL=$((cat response.json | jq -r '.upload_url') || true)
 # create release if it doesn't exist
 if [ -z "${UPLOAD_URL}" ] || [ "${UPLOAD_URL}" = "null" ]; then
     echo "Creating new release..."
-    BODY="See [CHANGELOG.md](https://github.com/nsidc/XMLTransformISO2CMRLambda/blob/main/CHANGELOG.md#${RELEASE_VERSION_NAME//./})"
+    BODY="See [CHANGELOG.md](https://github.com/${ORG}/${REPO}/blob/main/CHANGELOG.md#${RELEASE_VERSION_NAME//./})"
     POST_RESPONSE=$(curl --silent --show-error \
                     --header "Authorization: token ${GITHUB_TOKEN_SECRET}" \
                     --header "Accept: application/vnd.github.v3+json" \
