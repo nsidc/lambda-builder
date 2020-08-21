@@ -7,11 +7,12 @@ if [ -z $AWS_SECRET_ACCESS_KEY ] || [ -z $AWS_SECRET_ACCESS_KEY_ID ]; then
 fi
 
 
-USAGE="usage: publish.sh LAMBDA_ZIP CUMULUS_PREFIX [LAMBDA_NAME]"
+USAGE="usage: publish.sh LAMBDA_ZIP CUMULUS_PREFIX [LAMBDA_NAME] [RELEASE_NAME]"
 
 LAMBDA_ZIP=$1
 CUMULUS_PREFIX=$2
 LAMBDA_NAME=$3
+RELEASE_NAME=$4
 
 # ensure right number of args
 if [ "$#" -ne 2 ] && [ "$#" -ne 3 ]; then
@@ -32,7 +33,11 @@ if [ -z ${LAMBDA_NAME} ]; then
 fi
 
 BUCKET="${CUMULUS_PREFIX}-artifacts"
-KEY="lambdas/${LAMBDA_NAME}.zip"
+KEY="lambdas/${LAMBDA_NAME}"
+if [ ! -z "${RELEASE_NAME}" ]; then
+    KEY="${KEY}-${RELEASE_NAME}"
+fi
+KEY="${KEY}.zip"
 
 echo "Publishing ${LAMBDA_ZIP} to s3://${BUCKET}/${KEY} and lambda ${CUMULUS_PREFIX}-${LAMBDA_NAME}"
 

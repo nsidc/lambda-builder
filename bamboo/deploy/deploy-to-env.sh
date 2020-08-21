@@ -13,6 +13,7 @@ set -e
 # LAMBDA_FUNCTION_NAME=${bamboo.LAMBDA_FUNCTION_NAME}
 # MATURITY=${bamboo.MATURITY}
 # ORG=${bamboo.GITHUB_ORG}
+# RELEASE_NAME=${bamboo.inject.RELEASE_VERSION_NAME}
 # REPO=${bamboo.REPO}
 # TARGET_URL=${bamboo.resultsUrl}
 
@@ -47,7 +48,7 @@ docker run \
     --env AWS_SECRET_ACCESS_KEY_ID=${AWS_SECRET_ACCESS_KEY_ID} \
     --workdir $(pwd) \
     ${DOCKER_IMAGE_TAG} \
-        bash -c "${SCRIPT_DIR}/../../publish.sh $(pwd)/lambda.zip ${DEPLOY_NAME}-cumulus-${MATURITY} ${LAMBDA_FUNCTION_NAME}"
+        bash -c "${SCRIPT_DIR}/../../publish.sh $(pwd)/lambda.zip ${DEPLOY_NAME}-cumulus-${MATURITY} ${LAMBDA_FUNCTION_NAME} ${RELEASE_NAME}"
 
 # update env vars for successful deploy (github API will be reached in the
 # "final" task)
