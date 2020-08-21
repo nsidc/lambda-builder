@@ -15,7 +15,7 @@ LAMBDA_NAME=$3
 RELEASE_NAME=$4
 
 # ensure right number of args
-if [ "$#" -ne 2 ] && [ "$#" -ne 3 ]; then
+if [ "$#" -lt 2 ] || [ "$#" -gt 4 ]; then
     echo $USAGE
     exit 1
 fi

@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-USAGE="usage: build_and_publish.sh PROJECT_DIR LAMBDA_NAME CUMULUS_PREFIX"
+USAGE="usage: build_and_publish.sh PROJECT_DIR LAMBDA_NAME CUMULUS_PREFIX [RELEASE_NAME]"
 
 # ensure right number of args
-if [ "$#" -ne 3 ]; then
+if [ "$#" -lt 3 ] || [ "$#" -gt 4 ]; then
     echo $USAGE
     exit 1
 fi
@@ -19,9 +19,10 @@ fi
 
 LAMBDA_NAME=$2
 CUMULUS_PREFIX=$3
+RELEASE_NAME=$4
 
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 ${THIS_DIR}/build.sh ${PROJECT_DIR} ${LAMBDA_NAME}
 
-${THIS_DIR}/publish.sh ${PROJECT_DIR}/${LAMBDA_NAME}.zip ${CUMULUS_PREFIX}
+${THIS_DIR}/publish.sh ${PROJECT_DIR}/${LAMBDA_NAME}.zip ${CUMULUS_PREFIX} ${RELEASE_NAME}
