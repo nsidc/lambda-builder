@@ -31,3 +31,5 @@ cd -
 
 echo '' > ${VAR_FILE}
 echo RELEASE_VERSION_NAME=${VERSION} >> ${VAR_FILE}
+echo RELEASE_BRANCH=${branch} >> ${VAR_FILE}
+echo RELEASE_TAG=${version_tag} >> ${VAR_FILE}

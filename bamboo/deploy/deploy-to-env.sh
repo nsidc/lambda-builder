@@ -13,7 +13,9 @@ set -e
 # LAMBDA_FUNCTION_NAME=${bamboo.LAMBDA_FUNCTION_NAME}
 # MATURITY=${bamboo.MATURITY}
 # ORG=${bamboo.GITHUB_ORG}
-# RELEASE_NAME=${bamboo.inject.RELEASE_VERSION_NAME}
+# RELEASE_BRANCH=${bamboo.inject.RELEASE_BRANCH}
+# RELEASE_TAG=${bamboo.inject.RELEASE_TAG}
+# RELEASE_VERSION_NAME=${bamboo.inject.RELEASE_VERSION_NAME}
 # REPO=${bamboo.REPO}
 # TARGET_URL=${bamboo.resultsUrl}
 
@@ -36,6 +38,12 @@ EOF
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 DOCKER_IMAGE_TAG=lambda-builder
 docker build -t ${DOCKER_IMAGE_TAG} ${SCRIPT_DIR}/../..
+
+if [ "${RELEASE_VERSION_NAME}" = "${RELEASE_TAG}" ]; then
+    RELEASE_NAME=${RELEASE_TAG}
+else
+    RELEASE_NAME=${RELEASE_BRANCH}
+fi
 
 # deploy
 docker run \
