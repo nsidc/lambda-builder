@@ -36,8 +36,8 @@ aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}
 EOF
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-DOCKER_IMAGE_TAG=lambda-builder
-docker build -t ${DOCKER_IMAGE_TAG} ${SCRIPT_DIR}/../..
+DOCKER_IMAGE_TAG=lambda-builder-deploy
+docker build -t ${DOCKER_IMAGE_TAG} ${SCRIPT_DIR}
 
 if [ "${RELEASE_VERSION_NAME}" = "${RELEASE_TAG}" ]; then
     RELEASE_NAME=${RELEASE_TAG}
