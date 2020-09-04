@@ -33,6 +33,7 @@ cat << EOF > ${PWD}/aws/credentials
 [${AWS_PROFILE}]
 aws_access_key_id = ${AWS_SECRET_ACCESS_KEY_ID}
 aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}
+region = ${AWS_DEFAULT_REGION}
 EOF
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -50,10 +51,7 @@ docker run \
     --volume $(pwd):$(pwd) \
     --volume $(pwd)/aws:/home/linuxbrew/.aws \
     --env AWS_SHARED_CREDENTIALS_FILE=$(pwd)/aws/credentials \
-    --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
     --env AWS_PROFILE=${AWS_PROFILE} \
-    --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
-    --env AWS_SECRET_ACCESS_KEY_ID=${AWS_SECRET_ACCESS_KEY_ID} \
     --workdir $(pwd) \
     ${DOCKER_IMAGE_TAG} \
         bash -c "${SCRIPT_DIR}/../../publish.sh $(pwd)/lambda.zip ${DEPLOY_NAME}-cumulus-${MATURITY} ${LAMBDA_FUNCTION_NAME} ${RELEASE_NAME}"
