@@ -38,7 +38,7 @@ export AWS_CLI=${SCRIPT_DIR}/aws.sh
 export AWS_ACCESS_KEY_ID=${AWS_SECRET_ACCESS_KEY_ID}
 export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-${SCRIPT_DIR}/../../publish.sh $(pwd)/lambda.zip ${DEPLOY_NAME}-cumulus-${MATURITY} ${LAMBDA_FUNCTION_NAME} ${RELEASE_NAME}
+${SCRIPT_DIR}/../../publish.sh /project/lambda.zip ${DEPLOY_NAME}-cumulus-${MATURITY} ${LAMBDA_FUNCTION_NAME} ${RELEASE_NAME}
 
 # update env vars for successful deploy (github API will be reached in the
 # "final" task)
