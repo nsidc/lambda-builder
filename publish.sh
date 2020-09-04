@@ -6,8 +6,9 @@ if [ -z $AWS_SECRET_ACCESS_KEY ] || [ -z $AWS_SECRET_ACCESS_KEY_ID ]; then
     exit 1
 fi
 
-AWS=$(brew --prefix)/bin/aws
-
+if [ -z "${AWS_CLI}" ]; then
+    AWS_CLI=aws
+fi
 
 USAGE="usage: publish.sh LAMBDA_ZIP CUMULUS_PREFIX [LAMBDA_NAME] [RELEASE_NAME]"
 
@@ -44,14 +45,14 @@ KEY="${KEY}.zip"
 echo "Publishing ${LAMBDA_ZIP} to s3://${BUCKET}/${KEY} and lambda ${CUMULUS_PREFIX}-${LAMBDA_NAME}"
 
 # upload to S3
-${AWS} s3 cp ${LAMBDA_ZIP} s3://${BUCKET}/${KEY}
+${AWS_CLI} s3 cp ${LAMBDA_ZIP} s3://${BUCKET}/${KEY}
 
-AWS_ACCOUNT_ID=$(${AWS} sts get-caller-identity| grep 'Account' | cut -d '"' -f 4)
+AWS_ACCOUNT_ID=$(${AWS_CLI} sts get-caller-identity| grep 'Account' | cut -d '"' -f 4)
 
 # create or update lambda
 function_name="${CUMULUS_PREFIX}-${LAMBDA_NAME}"
-(${AWS} lambda get-function --function-name "${function_name}" &&
-     ${AWS} lambda update-function-code \
+(${AWS_CLI} lambda get-function --function-name "${function_name}" &&
+     ${AWS_CLI} lambda update-function-code \
          --function-name "${function_name}" \
          --s3-bucket "${BUCKET}" \
          --s3-key "${KEY}") ||
