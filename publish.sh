@@ -45,7 +45,7 @@ KEY="${KEY}.zip"
 echo "Publishing ${LAMBDA_ZIP} to s3://${BUCKET}/${KEY} and lambda ${CUMULUS_PREFIX}-${LAMBDA_NAME}"
 
 # upload to S3
-${AWS_CLI} s3 cp ${LAMBDA_ZIP} s3://${BUCKET}/${KEY}
+${AWS_CLI} s3 cp /project/$(basename ${LAMBDA_ZIP}) s3://${BUCKET}/${KEY}
 
 AWS_ACCOUNT_ID=$(${AWS_CLI} sts get-caller-identity| grep 'Account' | cut -d '"' -f 4)
 
