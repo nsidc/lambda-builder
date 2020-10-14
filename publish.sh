@@ -56,4 +56,4 @@ function_name="${CUMULUS_PREFIX}-${LAMBDA_NAME}"
          --function-name "${function_name}" \
          --s3-bucket "${BUCKET}" \
          --s3-key "${KEY}") ||
-    echo "lambda function '${function_name}' not found; lambda function must be created via terraform deployment"
+    (echo "lambda function '${function_name}' not found; lambda function must be created via terraform deployment" && exit 1)
