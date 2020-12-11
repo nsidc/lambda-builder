@@ -25,4 +25,4 @@ THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 ${THIS_DIR}/build.sh ${PROJECT_DIR} ${LAMBDA_NAME}
 
-${THIS_DIR}/publish.sh ${PROJECT_DIR}/${LAMBDA_NAME}.zip ${CUMULUS_PREFIX} ${RELEASE_NAME}
+${THIS_DIR}/publish.sh ${LAMBDA_NAME}.zip ${CUMULUS_PREFIX} ${LAMBDA_NAME} ${RELEASE_NAME}

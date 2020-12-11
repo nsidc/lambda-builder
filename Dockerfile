@@ -6,6 +6,7 @@ RUN brew install python@3.7
 RUN brew install python@3.8
 
 RUN brew install zip
+
 RUN brew install awscli
 
 RUN brew tap aws/tap

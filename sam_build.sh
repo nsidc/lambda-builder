@@ -32,6 +32,7 @@ export SAM_CLI_TELEMETRY=0
 # build it
 sam build \
     --use-container \
+    --skip-pull-image \
     --template-file ${PROJECT_DIR}/template.yaml \
     --build-dir ${BUILD_DIR}
 
