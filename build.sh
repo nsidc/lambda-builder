@@ -17,7 +17,8 @@ if [[ "${PROJECT_DIR}" != /* ]] || [[ ! -d "${PROJECT_DIR}" ]]; then
     exit 1
 fi
 
-LAMBDA_NAME=$2
+LAMBDA_NAME=$(basename $PROJECT_DIR)
+#LAMBDA_NAME=$2
 if [ -z "${LAMBDA_NAME}" ]; then
     LAMBDA_NAME='lambda'
 fi
