@@ -22,8 +22,9 @@ if [ -z "${LAMBDA_NAME}" ]; then
     LAMBDA_NAME='lambda'
 fi
 
-LAST_REQ_HASH=`curl -k -u $bamboo_maven_user:$bamboo_maven_password -v "https://maven.earthdata.nasa.gov/repository/nsidc/requirements-${LAMBDA_NAME}.txt.md5"`
+curl -k -u $bamboo_maven_user:$bamboo_maven_password -o last-requirements.txt.md5 "https://maven.earthdata.nasa.gov/repository/nsidc/requirements-${LAMBDA_NAME}.txt.md5"`
 
+LAST_REQ_HASH=`cat last-requirements.txt.md5`
 CURR_REQ_HASH=`/usr/bin/md5sum ${PROJECT_DIR}/requirements.txt`
 
 echo "LAST HASH $LAST_REQ_HASH"
