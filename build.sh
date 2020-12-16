@@ -38,7 +38,7 @@ then
   curl -k -u $bamboo_maven_user:$bamboo_maven_password -v "https://maven.earthdata.nasa.gov/repository/nsidc/${LAMBDA_NAME}.zip" -o ./${LAMBDA_NAME}_OLD.zip
   unzip ${LAMBDA_NAME}_OLD.zip -d OLD/
   cp -r ${PROJECT_DIR}/src/* ./OLD/
-  zip -X -r ${LAMBDA_NAME}.zip ./OLD/* 
+  zip -X -r lambda.zip ./OLD/* 
 else
   echo "IN ELSE STATMENT"
   # make this script work no matter where it was called from
@@ -56,12 +56,12 @@ else
        ${DOCKER_IMAGE_TAG}
 
 # move the build artifact to current directory
-  mv ${PROJECT_DIR}/lambda.zip ${LAMBDA_NAME}.zip
+  mv ${PROJECT_DIR}/lambda.zip lambda.zip
 fi
 
 echo $CURR_REQ_HASH > requirements-${LAMBDA_NAME}.txt.md5
 
-curl -k --upload-file ${LAMBDA_NAME}.zip -u $bamboo_maven_user:$bamboo_maven_password -v "https://maven.earthdata.nasa.gov/repository/nsidc/"
+curl -k --upload-file lambda.zip -u $bamboo_maven_user:$bamboo_maven_password -v "https://maven.earthdata.nasa.gov/repository/nsidc/${LAMBDA_NAME}.zip"
 curl -k --upload-file requirements-${LAMBDA_NAME}.txt.md5 -u $bamboo_maven_user:$bamboo_maven_password -v "https://maven.earthdata.nasa.gov/repository/nsidc/"
 
 echo "Created ${LAMBDA_NAME}.zip"
