@@ -24,7 +24,7 @@ fi
 
 LAST_REQ_HASH=`curl -k -u $bamboo_maven_user:$bamboo_maven_password -v "https://maven.earthdata.nasa.gov/repository/nsidc/requirements-${LAMBDA_NAME}.txt.md5"`
 
-CURR_REQ_HASH=`md5 ${PROJECT_DIR}/requirements.txt`
+CURR_REQ_HASH=`/usr/bin/md5sum ${PROJECT_DIR}/requirements.txt`
 
 # Compare Current and Previous Requriements.txt file md5 checksum hashes, and to save time rezip if requirements have not changed
 if [[ ${LAST_REQ_HASH} == ${CURR_REQ_HASH} ]] 
