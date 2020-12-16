@@ -38,7 +38,7 @@ then
   curl -k -u $bamboo_maven_user:$bamboo_maven_password -v "https://maven.earthdata.nasa.gov/repository/nsidc/${LAMBDA_NAME}.zip" -o ./${LAMBDA_NAME}_OLD.zip
   unzip ${LAMBDA_NAME}_OLD.zip -d OLD/
   cp -r ${PROJECT_DIR}/src/* ./OLD/
-  zip -X -r lambda.zip ./OLD/* 
+  (cd OLD && zip -X -r ../lambda.zip ./*)
 else
   echo "IN ELSE STATMENT"
   # make this script work no matter where it was called from
