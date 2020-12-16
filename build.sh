@@ -25,8 +25,8 @@ fi
 
 curl -k -u $bamboo_maven_user:$bamboo_maven_password -v "https://maven.earthdata.nasa.gov/repository/nsidc/requirements-${LAMBDA_NAME}.txt.md5" -O
 
-LAST_REQ_HASH=`cat requirements-${LAMBDA_NAME}.txt.md5 | sed - 's: ::g'`
-CURR_REQ_HASH=`/usr/bin/md5sum ${PROJECT_DIR}/requirements.txt| sed - 's: ::g'`
+LAST_REQ_HASH=`cat requirements-${LAMBDA_NAME}.txt.md5 | sed 's: ::g'`
+CURR_REQ_HASH=`/usr/bin/md5sum ${PROJECT_DIR}/requirements.txt| sed 's: ::g'`
 
 echo "LAST HASH -${LAST_REQ_HASH}-"
 echo "CURR HASH -${CURR_REQ_HASH}-"
