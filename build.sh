@@ -42,7 +42,8 @@ then
   PWD=`pwd`
   echo PWD $PWD
   ls
-  
+  echo LISTING OLD TOO
+  ls OLD
 else
   echo "IN ELSE STATMENT"
   # make this script work no matter where it was called from
