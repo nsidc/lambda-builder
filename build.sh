@@ -39,6 +39,10 @@ then
   unzip ${LAMBDA_NAME}_OLD.zip -d OLD/
   cp -r ${PROJECT_DIR}/src/* ./OLD/
   (cd OLD && zip -X -r ../lambda.zip ./*)
+  PWD=`pwd`
+  echo PWD $PWD
+  ls
+  
 else
   echo "IN ELSE STATMENT"
   # make this script work no matter where it was called from
