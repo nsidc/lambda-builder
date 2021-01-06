@@ -40,7 +40,7 @@ curl --silent --show-error \
      --write-out 'HTTP status: %{http_code}'\
      --out response.json \
      "${URL}"/tags/"${RELEASE_VERSION_NAME}"
-UPLOAD_URL=$( (cat response.json | jq -r '.upload_url') || true )
+UPLOAD_URL=$( ( < response.json jq -r '.upload_url') || true )
 
 # create release if it doesn't exist
 if [ -z "${UPLOAD_URL}" ] || [ "${UPLOAD_URL}" = "null" ]; then
@@ -54,7 +54,8 @@ if [ -z "${UPLOAD_URL}" ] || [ "${UPLOAD_URL}" = "null" ]; then
                     --write-out 'HTTP status: %{http_code}'\
                     --out response.json \
                     "${URL}")
-    UPLOAD_URL=$(cat response.json | jq -r '.upload_url')
+    echo "$POST_RESPONSE"
+    UPLOAD_URL=$( < response.json jq -r '.upload_url')
 fi
 
 if [ -z "${UPLOAD_URL}" ]; then

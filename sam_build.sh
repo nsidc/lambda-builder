@@ -5,7 +5,7 @@ set -e
 # set and sam is installed
 
 # env setup
-RESOURCE_NAME=$(cat "${PROJECT_DIR}"/template.yaml | grep -A1 -E '^Resources:$' | tail -1 | cut -d ':' -f 1 | awk '{print $1}')
+RESOURCE_NAME=$( < "${PROJECT_DIR}"/template.yaml grep -A1 -E '^Resources:$' | tail -1 | cut -d ':' -f 1 | awk '{print $1}')
 BUILD_DIR=${PROJECT_DIR}/build
 OUT_FILE=${PROJECT_DIR}/lambda.zip
 

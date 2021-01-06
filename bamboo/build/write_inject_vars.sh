@@ -6,6 +6,7 @@ set -e
 # REPO=${bamboo.REPO}
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+echo "$SCRIPT_DIR"
 
 VAR_FILE=inject_vars.txt
 
@@ -29,7 +30,9 @@ else
 fi
 cd -
 
-echo '' > ${VAR_FILE}
-echo RELEASE_VERSION_NAME="${VERSION}" >> ${VAR_FILE}
-echo RELEASE_BRANCH="${branch}" >> ${VAR_FILE}
-echo RELEASE_TAG="${version_tag}" >> ${VAR_FILE}
+{
+echo ''
+echo RELEASE_VERSION_NAME="${VERSION}" 
+echo RELEASE_BRANCH="${branch}"  
+echo RELEASE_TAG="${version_tag}"  
+} >> ${VAR_FILE}
