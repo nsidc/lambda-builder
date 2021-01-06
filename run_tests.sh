@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "\nshellcheck"
-shellcheck $(find . -type f -name "*.sh")
+echo "shellcheck"
+find . -type f -name "*.sh" -exec shellcheck {} \;
 shellcheck_exit=$?
 
 # exit with failure if any of the above commands failed

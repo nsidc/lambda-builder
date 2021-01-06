@@ -12,11 +12,11 @@ STATUS=${1}
 DESCRIPTION=${2}
 
 
-if [ -z ${STATUS} ] || [ -z ${DESCRIPTION} ]; then
-    source ${PWD}/build-status || exit 1
+if [ -z "${STATUS}" ] || [ -z "${DESCRIPTION}" ]; then
+    source "${PWD}"/build-status || exit 1
 fi
 
-GIT_SHA=$(cd ${REPO} && git rev-parse HEAD)
+GIT_SHA=$(cd "${REPO}" && git rev-parse HEAD)
 
 URL="https://api.github.com/repos/${ORG}/${REPO}/statuses/${GIT_SHA}"
 echo "POSTing status to ${URL}"
@@ -28,5 +28,5 @@ curl --silent --show-error \
     --request POST\
     --write-out 'HTTP status: %{http_code}'\
     --out response.json \
-    ${URL}
+    "${URL}"
 cat response.json

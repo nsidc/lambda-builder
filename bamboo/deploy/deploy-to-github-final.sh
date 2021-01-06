@@ -11,18 +11,18 @@ set -e
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-source ${PWD}/build-status || true
+source "${PWD}"/build-status || true
 
 # if status was never updated to success, it failed
 if [ "${STATUS}" = "pending" ]; then
-    cat << EOF >> ${PWD}/build-status
+    cat << EOF >> "${PWD}"/build-status
 export CONTEXT="Deploy to GitHub release"
 export STATUS=failure
 export DESCRIPTION="${BUILD_NUMBER} failed"
 EOF
 fi
 
-${SCRIPT_DIR}/../set-status.sh
+"${SCRIPT_DIR}"/../set-status.sh
 
 # clean up build-status file
-rm -v ${PWD}/build-status
+rm -v "${PWD}"/build-status

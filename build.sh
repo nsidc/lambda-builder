@@ -5,14 +5,14 @@ USAGE="usage: build.sh PROJECT_DIR [LAMBDA_NAME]"
 
 # ensure right number of args
 if [ "$#" -eq 0 ] || [ "$#" -gt 2 ]; then
-    echo $USAGE
+    echo "$USAGE"
     exit 1
 fi
 
 # ensure right kind of arg
 PROJECT_DIR=$1
 if [[ "${PROJECT_DIR}" != /* ]] || [[ ! -d "${PROJECT_DIR}" ]]; then
-    echo $USAGE
+    echo "$USAGE"
     echo -e "\nERROR: PROJECT_DIR must be an absolute path to an existing directory."
     exit 1
 fi
@@ -27,16 +27,16 @@ BUILDER_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # build docker image
 DOCKER_IMAGE_TAG=lambda-builder
-docker build -t ${DOCKER_IMAGE_TAG} ${BUILDER_DIR}
+docker build -t ${DOCKER_IMAGE_TAG} "${BUILDER_DIR}"
 
 # run the build script on the docker container
 docker run \
        -v /var/run/docker.sock:/var/run/docker.sock \
-       -v ${PROJECT_DIR}:${PROJECT_DIR} \
+       -v "${PROJECT_DIR}":"${PROJECT_DIR}" \
        -e PROJECT_DIR="${PROJECT_DIR}" \
        ${DOCKER_IMAGE_TAG}
 
 # move the build artifact to current directory
-mv ${PROJECT_DIR}/lambda.zip ${LAMBDA_NAME}.zip
+mv "${PROJECT_DIR}"/lambda.zip ${LAMBDA_NAME}.zip
 
 echo "Created ${LAMBDA_NAME}.zip"

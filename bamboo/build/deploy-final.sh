@@ -13,9 +13,9 @@ set -e
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # only update status if this is a branch we're deploying
-branch=$(cd ${REPO} && git rev-parse --abbrev-ref HEAD)
+branch=$(cd "${REPO}" && git rev-parse --abbrev-ref HEAD)
 if [ "${BRANCH_TO_DEPLOY}" = "${branch}" ]; then
     if [ "${branch}" != "main" ] && [ "${branch}" != "release" ]; then
-        ${SCRIPT_DIR}/../set-status.sh
+        "${SCRIPT_DIR}"/../set-status.sh
     fi
 fi

@@ -19,13 +19,13 @@ set -e
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-branch=$(cd ${REPO} && git rev-parse --abbrev-ref HEAD)
+branch=$(cd "${REPO}" && git rev-parse --abbrev-ref HEAD)
 
 if [ "${BRANCH_TO_DEPLOY}" = "${branch}" ]; then
     if [ "${branch}" = "main" ] || [ "${branch}" = "release" ]; then
         echo "Deployment of branch \"${branch}\" is handled by Deployment project"
     else
-        ${SCRIPT_DIR}/../deploy/deploy-to-env.sh
+        "${SCRIPT_DIR}"/../deploy/deploy-to-env.sh
     fi
 else
     echo "Current branch is ${branch}, BRANCH_TO_DEPLOY is ${BRANCH_TO_DEPLOY}; not deploying."
