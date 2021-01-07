@@ -5,9 +5,6 @@ set -e
 #
 # REPO=${bamboo.REPO}
 
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-echo "$SCRIPT_DIR"
-
 VAR_FILE=inject_vars.txt
 
 cd "${REPO}"
