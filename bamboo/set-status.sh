@@ -11,7 +11,7 @@ set -e
 STATUS=${1}
 DESCRIPTION=${2}
 
-
+# shellcheck source=/dev/null
 if [ -z "${STATUS}" ] || [ -z "${DESCRIPTION}" ]; then
     source "${PWD}"/build-status || exit 1
 fi

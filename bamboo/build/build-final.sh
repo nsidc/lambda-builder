@@ -10,6 +10,7 @@ set -e
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+# shellcheck source=/dev/null
 source "${PWD}"/build-status || true
 
 # if status was never updated to success, it failed
