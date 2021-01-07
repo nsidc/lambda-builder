@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ -z $AWS_SECRET_ACCESS_KEY ] || [ -z $AWS_SECRET_ACCESS_KEY_ID ]; then
+if [ -z "$AWS_SECRET_ACCESS_KEY" ] || [ -z "$AWS_SECRET_ACCESS_KEY_ID" ]; then
     echo "ERROR: AWS_SECRET_ACCESS_KEY or AWS_SECRET_ACCESS_KEY_ID is empty"
     exit 1
 fi
@@ -19,25 +19,25 @@ RELEASE_NAME=$4
 
 # ensure right number of args
 if [ "$#" -lt 2 ] || [ "$#" -gt 4 ]; then
-    echo $USAGE
+    echo "$USAGE"
     exit 1
 fi
 
 # ensure right kind of arg
 if [ ! -f "${LAMBDA_ZIP}" ]; then
-    echo $USAGE
+    echo "$USAGE"
     echo -e "\nERROR: LAMBDA_ZIP must be a zip file."
     exit 1
 fi
 
-if [ -z ${LAMBDA_NAME} ]; then
-    LAMBDA_NAME=$(basename ${LAMBDA_ZIP})
+if [ -z "${LAMBDA_NAME}" ]; then
+    LAMBDA_NAME=$(basename "${LAMBDA_ZIP}")
     LAMBDA_NAME=${LAMBDA_NAME%.zip}
 fi
 
 BUCKET="${CUMULUS_PREFIX}-artifacts"
 KEY="lambdas/${LAMBDA_NAME}"
-if [ ! -z "${RELEASE_NAME}" ]; then
+if [ -n "${RELEASE_NAME}" ]; then
     KEY="${KEY}-${RELEASE_NAME}"
 fi
 KEY="${KEY}.zip"
@@ -45,9 +45,10 @@ KEY="${KEY}.zip"
 echo "Publishing ${LAMBDA_ZIP} to s3://${BUCKET}/${KEY} and lambda ${CUMULUS_PREFIX}-${LAMBDA_NAME}"
 
 # upload to S3
-${AWS_CLI} s3 cp /project/$(basename ${LAMBDA_ZIP}) s3://${BUCKET}/${KEY}
+"${AWS_CLI}" s3 cp /project/"$(basename "${LAMBDA_ZIP}")" s3://"${BUCKET}"/"${KEY}"
 
 AWS_ACCOUNT_ID=$(${AWS_CLI} sts get-caller-identity| grep 'Account' | cut -d '"' -f 4)
+echo "$AWS_ACCOUNT_ID"
 
 # create or update lambda
 function_name="${CUMULUS_PREFIX}-${LAMBDA_NAME}"

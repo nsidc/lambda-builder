@@ -21,12 +21,12 @@ set -e
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-cat << EOF > ${PWD}/build-status
+cat << EOF > "${PWD}"/build-status
 export CONTEXT="Deploy to ${AWS_PROFILE}"
 export STATUS=pending
 export DESCRIPTION="${BUILD_NUMBER} started"
 EOF
-${SCRIPT_DIR}/../set-status.sh
+"${SCRIPT_DIR}"/../set-status.sh
 
 if [ "${RELEASE_VERSION_NAME}" = "${RELEASE_TAG}" ]; then
     RELEASE_NAME=${RELEASE_TAG}
@@ -38,11 +38,11 @@ export AWS_CLI=${SCRIPT_DIR}/aws.sh
 export AWS_ACCESS_KEY_ID=${AWS_SECRET_ACCESS_KEY_ID}
 export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-${SCRIPT_DIR}/../../publish.sh $(pwd)/lambda.zip ${DEPLOY_NAME}-cumulus-${MATURITY} ${LAMBDA_FUNCTION_NAME} ${RELEASE_NAME}
+"${SCRIPT_DIR}"/../../publish.sh "$(pwd)"/lambda.zip "${DEPLOY_NAME}"-cumulus-"${MATURITY}" "${LAMBDA_FUNCTION_NAME}" "${RELEASE_NAME}"
 
 # update env vars for successful deploy (github API will be reached in the
 # "final" task)
-cat << EOF > ${PWD}/build-status
+cat << EOF > "${PWD}"/build-status
 export CONTEXT="Deploy to ${AWS_PROFILE}"
 export STATUS=success
 export DESCRIPTION="${BUILD_NUMBER} succeeded"

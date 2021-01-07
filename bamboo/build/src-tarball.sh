@@ -6,4 +6,4 @@ set -e
 #
 # REPO=${bamboo.REPO}
 
-tar -cvzf lambda-builder.tar.gz lambda-builder ${REPO}
+tar -cvzf lambda-builder.tar.gz lambda-builder "${REPO}"

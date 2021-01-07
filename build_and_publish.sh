@@ -5,14 +5,14 @@ USAGE="usage: build_and_publish.sh PROJECT_DIR LAMBDA_NAME CUMULUS_PREFIX [RELEA
 
 # ensure right number of args
 if [ "$#" -lt 3 ] || [ "$#" -gt 4 ]; then
-    echo $USAGE
+    echo "$USAGE"
     exit 1
 fi
 
 # ensure right kind of arg
 PROJECT_DIR=$1
 if [[ "${PROJECT_DIR}" != /* ]] || [[ ! -d "${PROJECT_DIR}" ]]; then
-    echo $USAGE
+    echo "$USAGE"
     echo -e "\nERROR: PROJECT_DIR must be an absolute path to an existing directory."
     exit 1
 fi
@@ -23,6 +23,6 @@ RELEASE_NAME=$4
 
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-${THIS_DIR}/build.sh ${PROJECT_DIR} ${LAMBDA_NAME}
+"${THIS_DIR}"/build.sh "${PROJECT_DIR}" "${LAMBDA_NAME}"
 
-${THIS_DIR}/publish.sh ${PROJECT_DIR}/${LAMBDA_NAME}.zip ${CUMULUS_PREFIX} ${RELEASE_NAME}
+"${THIS_DIR}"/publish.sh "${PROJECT_DIR}"/"${LAMBDA_NAME}".zip "${CUMULUS_PREFIX}" "${LAMBDA_NAME}" "${RELEASE_NAME}"
