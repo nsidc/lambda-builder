@@ -26,6 +26,8 @@ fi
 BUILDER_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # build docker image
+docker --version
+
 DOCKER_IMAGE_TAG=lambda-builder
 docker build -t ${DOCKER_IMAGE_TAG} "${BUILDER_DIR}"
 
