@@ -14,7 +14,6 @@ echo PROJECT_DIR="${PROJECT_DIR}"
 echo RESOURCE_NAME="${RESOURCE_NAME}"
 echo BUILD_DIR="${BUILD_DIR}"
 echo OUT_FILE="${OUT_FILE}"
-echo REQUIREMENTS = "${REQUIREMENTS}"
 
 # make sure all required env vars have a value
 for VAR in PROJECT_DIR RESOURCE_NAME BUILD_DIR OUT_FILE; do
