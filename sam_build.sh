@@ -14,6 +14,7 @@ echo PROJECT_DIR="${PROJECT_DIR}"
 echo RESOURCE_NAME="${RESOURCE_NAME}"
 echo BUILD_DIR="${BUILD_DIR}"
 echo OUT_FILE="${OUT_FILE}"
+echo REQUIREMENTS = "${REQUIREMENTS}"
 
 # make sure all required env vars have a value
 for VAR in PROJECT_DIR RESOURCE_NAME BUILD_DIR OUT_FILE; do
@@ -28,6 +29,12 @@ rm -vf "${OUT_FILE}"
 
 # opt out of amazon data collection
 export SAM_CLI_TELEMETRY=0
+
+if ! [ -f "${PROJECT_DIR}"/src/requirements.txt]; then
+    cd "${PROJECT_DIR}"
+    poetry export -f requirements.txt --output "${PROJECT_DIR}"/src/requirements.txt
+    cd -
+fi
 
 # build it
 sam build \
