@@ -32,7 +32,7 @@ export SAM_CLI_TELEMETRY=0
 REQUIREMENTS_FILE="${PROJECT_DIR}/src/requirements.txt"
 if [ ! -f "${REQUIREMENTS_FILE}" ]; then
     cd "${PROJECT_DIR}"
-    poetry export -f requirements.txt --output ${REQUIREMENTS_FILE}
+    poetry export -f requirements.txt --output "${REQUIREMENTS_FILE}"
     cd -
 fi
 

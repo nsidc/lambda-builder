@@ -35,7 +35,7 @@ DOCKER_IMAGE_TAG=lambda-builder
 if [ -z "${DOCKERFILE}" ]; then
     DOCKERFILE="${BUILDER_DIR}/Dockerfile"
 fi
-docker build -t ${DOCKER_IMAGE_TAG} "${BUILDER_DIR}" -f ${DOCKERFILE}
+docker build -t ${DOCKER_IMAGE_TAG} "${BUILDER_DIR}" -f "${DOCKERFILE}"
 
 # run the build script on the docker container
 docker run \
