@@ -19,6 +19,7 @@ EOF
 "${SCRIPT_DIR}"/../set-status.sh
 
 # build
+export DOCKERFILE="${SCRIPT_DIR}/../../Dockerfile.bamboo"
 "$(pwd)"/lambda-builder/build.sh "$(pwd)"/"${REPO}"
 
 "${PWD}"/"${REPO}"/test.sh

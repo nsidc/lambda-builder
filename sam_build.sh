@@ -29,6 +29,13 @@ rm -vf "${OUT_FILE}"
 # opt out of amazon data collection
 export SAM_CLI_TELEMETRY=0
 
+REQUIREMENTS_FILE="${PROJECT_DIR}/src/requirements.txt"
+if [ ! -f "${REQUIREMENTS_FILE}" ]; then
+    cd "${PROJECT_DIR}"
+    poetry export -f requirements.txt --output "${REQUIREMENTS_FILE}"
+    cd -
+fi
+
 # build it
 sam build \
     --use-container \
