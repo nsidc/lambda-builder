@@ -26,12 +26,13 @@ done
 # clean up lambda.zip
 rm -vf "${OUT_FILE}"
 
-# pt out of amazon data collection
+# opt out of amazon data collection
 export SAM_CLI_TELEMETRY=0
 
-if ! [ -f "${PROJECT_DIR}"/src/requirements.txt ]; then
+REQUIREMENTS_FILE="${PROJECT_DIR}/src/requirements.txt"
+if [ ! -f "${REQUIREMENTS_FILE}" ]; then
     cd "${PROJECT_DIR}"
-    poetry export -f requirements.txt --output "${PROJECT_DIR}"/src/requirements.txt
+    poetry export -f requirements.txt --output ${REQUIREMENTS_FILE}
     cd -
 fi
 
