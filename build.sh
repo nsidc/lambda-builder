@@ -11,9 +11,13 @@ fi
 
 # ensure right kind of arg
 PROJECT_DIR=$1
-if [[ "${PROJECT_DIR}" != /* ]] || [[ ! -d "${PROJECT_DIR}" ]]; then
+if [[ "${PROJECT_DIR}" != /* ]]; then
+    PROJECT_DIR="${PWD}/${PROJECT_DIR}"
+fi
+
+if [[ ! -d "${PROJECT_DIR}" ]]; then
     echo "$USAGE"
-    echo -e "\nERROR: PROJECT_DIR must be an absolute path to an existing directory."
+    echo -e "\nERROR: PROJECT_DIR must be a path to an existing directory."
     exit 1
 fi
 
