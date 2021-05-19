@@ -31,7 +31,10 @@ BUILDER_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # build docker image
 DOCKER_IMAGE_TAG=lambda-builder
-docker build -t ${DOCKER_IMAGE_TAG} "${BUILDER_DIR}"
+if [ -z "${DOCKERFILE}" ]; then
+    DOCKERFILE="${BUILDER_DIR}/Dockerfile"
+fi
+docker build -t ${DOCKER_IMAGE_TAG} "${BUILDER_DIR}" -f ${DOCKERFILE}
 
 # run the build script on the docker container
 docker run \
