@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -x
 
 USAGE="usage: build.sh PROJECT_DIR [LAMBDA_NAME]"
 
