@@ -27,7 +27,7 @@ git clone https://github.com/nsidc/lambda-builder
 ## Usage
 
 ```
-/path/to/lambda-builder/build.sh /absolute/path/to/lambda/directory
+/path/to/lambda-builder/build.sh relative-or-absolute/path/to/lambda/directory
 ```
 
 ## Docker notes
