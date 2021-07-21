@@ -12,7 +12,7 @@ fi
 # ensure right kind of arg
 PROJECT_DIR=$1
 if [[ "${PROJECT_DIR}" != /* ]]; then
-    PROJECT_DIR="${PWD}/${PROJECT_DIR}"
+    PROJECT_DIR=$(realpath "${PWD}/${PROJECT_DIR}")
 fi
 
 if [[ ! -d "${PROJECT_DIR}" ]]; then
