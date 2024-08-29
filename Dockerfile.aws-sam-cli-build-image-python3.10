@@ -1,6 +1,6 @@
 FROM homebrew/brew:latest
 
-# RUN brew install groff
+RUN brew install groff
 RUN brew install libyaml
 RUN brew install python@3.10
 
