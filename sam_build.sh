@@ -32,6 +32,7 @@ export SAM_CLI_TELEMETRY=0
 # poetry
 cd "${PROJECT_DIR}"
 poetry self add poetry-plugin-export
+poetry install
 cd -
 
 REQUIREMENTS_FILE="${PROJECT_DIR}/src/requirements.txt"
