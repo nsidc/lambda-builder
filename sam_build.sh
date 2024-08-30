@@ -52,6 +52,12 @@ sam build \
     --template-file "${PROJECT_DIR}"/template.yaml \
     --build-dir "${BUILD_DIR}"
 
+echo "---- CONTENTS OF TEMPLATE FILE ----"
+cat "${PROJECT_DIR}"/template.yaml
+echo "---- CONTENTS OF BUILD DIRECTORY ----"
+ls "${BUILD_DIR}"
+echo "---- END ----"
+
 # zip it
 (cd "${BUILD_DIR}"/"${RESOURCE_NAME}" && zip "${OUT_FILE}" -X -r ./*)
 
