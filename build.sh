@@ -41,8 +41,8 @@ docker build -t ${DOCKER_IMAGE_TAG} "${BUILDER_DIR}" -f "${DOCKERFILE}"
 # run the build script on the docker container
 docker run \
        -v /var/run/docker.sock:/var/run/docker.sock \
-       -v "${PROJECT_DIR}":"/tmp${PROJECT_DIR}" \
-       -e PROJECT_DIR="/tmp${PROJECT_DIR}" \
+       -v "${PROJECT_DIR}":"${PROJECT_DIR}" \
+       -e PROJECT_DIR="${PROJECT_DIR}" \
        ${DOCKER_IMAGE_TAG}
 
 # move the build artifact to current directory
