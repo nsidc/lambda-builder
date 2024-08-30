@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 # run this on the docker container; works on host too if environment variables
 # set and sam is installed
