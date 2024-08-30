@@ -32,6 +32,7 @@ export SAM_CLI_TELEMETRY=0
 # poetry
 cd "${PROJECT_DIR}"
 poetry self add poetry-plugin-export
+poetry install poetry-plugin-export
 cd -
 
 REQUIREMENTS_FILE="${PROJECT_DIR}/src/requirements.txt"
@@ -39,6 +40,9 @@ if [ ! -f "${REQUIREMENTS_FILE}" ]; then
     echo "No requirements file found, generating one..."
     cd "${PROJECT_DIR}"
     poetry export -f requirements.txt --output "${REQUIREMENTS_FILE}"
+    echo "---- HERE IS THE CONTENTS OF THE REQUIREMENTS FILE ----"
+    cat ${REQUIREMENTS_FILE}
+    echo "---- END REQUIREMENTS FILE ----"
     cd -
 fi
 
