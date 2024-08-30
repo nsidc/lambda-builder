@@ -29,20 +29,12 @@ rm -vf "${OUT_FILE}"
 # opt out of amazon data collection
 export SAM_CLI_TELEMETRY=0
 
-# poetry
-cd "${PROJECT_DIR}"
-poetry self add poetry-plugin-export
-poetry install
-cd -
-
 REQUIREMENTS_FILE="${PROJECT_DIR}/src/requirements.txt"
 if [ ! -f "${REQUIREMENTS_FILE}" ]; then
     echo "No requirements file found, generating one..."
     cd "${PROJECT_DIR}"
+    poetry self add poetry-plugin-export
     poetry export -f requirements.txt --output "${REQUIREMENTS_FILE}"
-    echo "---- HERE IS THE CONTENTS OF THE REQUIREMENTS FILE ----"
-    cat ${REQUIREMENTS_FILE}
-    echo "---- END REQUIREMENTS FILE ----"
     cd -
 fi
 
@@ -51,12 +43,6 @@ sam build \
     --use-container \
     --template-file "${PROJECT_DIR}"/template.yaml \
     --build-dir "${BUILD_DIR}"
-
-echo "---- CONTENTS OF TEMPLATE FILE ----"
-cat "${PROJECT_DIR}"/template.yaml
-echo "---- CONTENTS OF BUILD DIRECTORY ----"
-ls "${BUILD_DIR}"
-echo "---- END ----"
 
 # zip it
 (cd "${BUILD_DIR}"/"${RESOURCE_NAME}" && zip "${OUT_FILE}" -X -r ./*)

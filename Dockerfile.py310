@@ -5,8 +5,4 @@ ENV PATH "$PATH:/root/.local/bin:/home/linuxbrew/.local/bin"
 
 COPY sam_build.sh /sam_build.sh
 
-CMD ls /home/runner/work/cumulus_cmr_metadata_generator/cumulus_cmr_metadata_generator/cumulus_cmr_metadata_generator/src/ -l \
-    && /sam_build.sh \
-    && ls /home/runner/work/cumulus_cmr_metadata_generator/cumulus_cmr_metadata_generator/cumulus_cmr_metadata_generator/src/ \
-    && ls /home/runner/work/cumulus_cmr_metadata_generator/cumulus_cmr_metadata_generator/cumulus_cmr_metadata_generator/
-
+CMD /sam_build.sh
