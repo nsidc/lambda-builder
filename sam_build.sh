@@ -29,6 +29,8 @@ rm -vf "${OUT_FILE}"
 # opt out of amazon data collection
 export SAM_CLI_TELEMETRY=0
 
+poetry self add poetry-plugin-export
+
 REQUIREMENTS_FILE="${PROJECT_DIR}/src/requirements.txt"
 if [ ! -f "${REQUIREMENTS_FILE}" ]; then
     cd "${PROJECT_DIR}"
