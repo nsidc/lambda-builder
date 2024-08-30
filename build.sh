@@ -40,7 +40,6 @@ docker build -t ${DOCKER_IMAGE_TAG} "${BUILDER_DIR}" -f "${DOCKERFILE}"
 
 # run the build script on the docker container
 docker run \
-       --user root \
        -v /var/run/docker.sock:/var/run/docker.sock \
        -v "${PROJECT_DIR}":"${PROJECT_DIR}" \
        -e PROJECT_DIR="${PROJECT_DIR}" \
