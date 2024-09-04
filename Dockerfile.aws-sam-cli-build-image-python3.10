@@ -1,4 +1,4 @@
-FROM linuxbrew/brew:latest
+FROM homebrew/brew:latest
 
 RUN brew install groff
 RUN brew install libyaml

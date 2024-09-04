@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 # run this on the docker container; works on host too if environment variables
 # set and sam is installed
@@ -31,7 +31,9 @@ export SAM_CLI_TELEMETRY=0
 
 REQUIREMENTS_FILE="${PROJECT_DIR}/src/requirements.txt"
 if [ ! -f "${REQUIREMENTS_FILE}" ]; then
+    echo "No requirements file found, generating one..."
     cd "${PROJECT_DIR}"
+    poetry self add poetry-plugin-export
     poetry export -f requirements.txt --output "${REQUIREMENTS_FILE}"
     cd -
 fi
