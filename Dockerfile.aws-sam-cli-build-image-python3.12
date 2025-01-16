@@ -1,0 +1,11 @@
+FROM homebrew/brew:latest
+
+RUN brew install groff
+RUN brew install libyaml
+RUN brew install python@3.12
+
+RUN brew install zip
+RUN brew install awscli
+
+RUN brew tap aws/tap
+RUN brew install aws-sam-cli
