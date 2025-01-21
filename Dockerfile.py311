@@ -1,4 +1,4 @@
-FROM nsidc/aws-sam-cli-build-image-python3.13:latest
+FROM nsidc/aws-sam-cli-build-image-python3.11:latest
 
 RUN curl -sSL https://install.python-poetry.org | python3.11 -
 ENV PATH "$PATH:/root/.local/bin:/home/linuxbrew/.local/bin"
