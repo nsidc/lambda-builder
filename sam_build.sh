@@ -34,7 +34,7 @@ if [ ! -f "${REQUIREMENTS_FILE}" ]; then
     echo "No requirements file found, generating one..."
     cd "${PROJECT_DIR}"
     poetry self add poetry-plugin-export
-    poetry export -f requirements.txt --output "${REQUIREMENTS_FILE}"
+    poetry export --without-hashes -f requirements.txt --output "${REQUIREMENTS_FILE}"
     cd -
 fi
 
